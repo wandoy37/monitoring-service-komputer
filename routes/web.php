@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+// Route Grouping used prefix admin for authntication
+Route::prefix('admin')->middleware('auth')->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 });
