@@ -3,7 +3,7 @@
 
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>Ghufta Service - @yield('title')</title>
+    <title>Ghufta Service | @yield('title')</title>
     <meta content='width=device-width, initial-scale=1.0, shrink-to-fit=no' name='viewport' />
     <link rel="icon" href="{{ asset('assets/img/icon.ico') }}" type="image/x-icon" />
 
@@ -106,6 +106,8 @@
             </footer>
         </div>
     </div>
+
+
     <!--   Core JS Files   -->
     <script src="{{ asset('assets/js/core/jquery.3.2.1.min.js') }}"></script>
     <script src="{{ asset('assets/js/core/popper.min.js') }}"></script>
@@ -181,6 +183,8 @@
 
     <!-- Atlantis JS -->
     <script src="{{ asset('assets/js/atlantis.min.js') }}"></script>
+
+    @stack('scripts')
 </body>
 
 </html>

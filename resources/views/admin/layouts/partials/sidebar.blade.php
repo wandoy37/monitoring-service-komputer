@@ -44,7 +44,7 @@
                     <h4 class="text-section">MENU NAVIGATION</h4>
                 </li>
                 <li class="nav-item {{ request()->segment(2) == 'dashboard' ? 'active' : '' }}">
-                    <a href="faqs.html">
+                    <a href="{{ route('dashboard.index') }}">
                         <i class="far fa-question-circle"></i>
                         <p>Dashboard</p>
                     </a>
@@ -65,6 +65,20 @@
                         </ul>
                     </div>
                 </li>
+                {{-- /Master Navigation --}}
+                <li class="nav-section">
+                    <span class="sidebar-mini-icon">
+                        <i class="fa fa-ellipsis-h"></i>
+                    </span>
+                    <h4 class="text-section">MASTER NAVIGATION</h4>
+                </li>
+                <li class="nav-item {{ request()->segment(2) == 'user' ? 'active' : '' }}">
+                    <a href="{{ route('user.index') }}">
+                        <i class="far fa-user"></i>
+                        <p>User</p>
+                    </a>
+                </li>
+                {{-- /Master Navigation --}}
             </ul>
         </div>
     </div>
