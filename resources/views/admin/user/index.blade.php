@@ -53,7 +53,7 @@
                                 <label for="name" class="col-lg-2 col-md-2 col-sm-3 mt-sm-2 text-right">Role</label>
                                 <div class="col-lg-4 col-md-9 col-sm-8">
                                     <select class="form-control" name="role">
-                                        <option>-- Select Role --</option>
+                                        <option value="">-- Select Role --</option>
                                         @foreach ($roles as $key => $value)
                                             <option value="{{ $key }}"
                                                 {{ old('role', $role) == $key ? 'selected' : null }}>

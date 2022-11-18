@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\UserController;
+use App\Models\Service;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,4 +28,15 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/user/{id}/edit', [UserController::class, 'edit'])->name('user.edit');
     Route::patch('/user/{id}/update', [UserController::class, 'update'])->name('user.update');
     Route::delete('/user/{id}/delete', [UserController::class, 'destroy'])->name('user.delete');
+
+    // Service Controller
+    Route::get('/service', [ServiceController::class, 'index'])->name('service.index');
+    Route::get('/service/create', [ServiceController::class, 'create'])->name('service.create');
+    Route::post('/service/store', [ServiceController::class, 'store'])->name('service.store');
+    Route::get('/service/{id}/edit', [ServiceController::class, 'edit'])->name('service.edit');
+    Route::patch('/service/{id}/update', [ServiceController::class, 'update'])->name('service.update');
+    Route::delete('/service/{id}/delete', [ServiceController::class, 'destroy'])->name('service.delete');
+
+    // Page Resi Service
+    Route::get('/service/{service}/resi', [ServiceController::class, 'resiView'])->name('resi.view');
 });

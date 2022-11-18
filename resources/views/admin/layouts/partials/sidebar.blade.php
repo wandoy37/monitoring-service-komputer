@@ -65,12 +65,12 @@
                         </ul>
                     </div>
                 </li>
-                {{-- /Master Navigation --}}
+                {{-- /Menu Master --}}
                 <li class="nav-section">
                     <span class="sidebar-mini-icon">
                         <i class="fa fa-ellipsis-h"></i>
                     </span>
-                    <h4 class="text-section">MASTER NAVIGATION</h4>
+                    <h4 class="text-section">MENU MASTER</h4>
                 </li>
                 <li class="nav-item {{ request()->segment(2) == 'user' ? 'active' : '' }}">
                     <a href="{{ route('user.index') }}">
@@ -78,7 +78,21 @@
                         <p>User</p>
                     </a>
                 </li>
-                {{-- /Master Navigation --}}
+                {{-- /Menu Master --}}
+                {{-- /Menu Navigation --}}
+                <li class="nav-section">
+                    <span class="sidebar-mini-icon">
+                        <i class="fa fa-ellipsis-h"></i>
+                    </span>
+                    <h4 class="text-section">MENU NAVIGATION</h4>
+                </li>
+                <li class="nav-item {{ request()->segment(2) == 'service' ? 'active' : '' }}">
+                    <a href="{{ route('service.index') }}">
+                        <i class="icon-wrench"></i>
+                        <p>Service</p>
+                    </a>
+                </li>
+                {{-- /Menu Navigation --}}
             </ul>
         </div>
     </div>
