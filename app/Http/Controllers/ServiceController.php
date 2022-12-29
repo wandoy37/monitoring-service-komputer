@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AdditionalItems;
 use App\Models\Service;
+use App\Models\ServiceActivity;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
@@ -25,7 +28,7 @@ class ServiceController extends Controller
         // Jika terdapat nilai code_service
         $search = request('search') ?? '';
 
-        // Mencari data berdasarkan status_service 
+        // Mencari data berdasarkan status_service
         if (request('status')) {
             $services = Service::where('status_service', 'LIKE', '%' . request('status') . '%')->get();
         }
@@ -110,7 +113,7 @@ class ServiceController extends Controller
         $service = Service::find($id);
         $stores = $this->stores();
         $statuses = $this->statuses();
-        $technicals = User::whereRole('teknisi')->get();
+        $technicals = User::all();
         return view('admin.service.edit', compact('service', 'stores', 'statuses', 'technicals'));
     }
 
@@ -199,5 +202,99 @@ class ServiceController extends Controller
     public function resiView(Service $service)
     {
         return view('admin.service.page.resi', compact('service'));
+    }
+
+    public function repair($id)
+    {
+        $service = Service::find($id);
+        $stores = $this->stores();
+        return view('admin.service.repair', compact('service', 'stores'));
+    }
+
+    public function create_activity($id)
+    {
+        $service = Service::find($id);
+        $statuses = $this->statuses();
+        return view('admin.service.create_activity', compact('service', 'statuses'));
+    }
+
+    public function store_activity(Request $request, $id)
+    {
+        // Get ID Service
+        $serviceId = Service::find($id);
+
+        // Validator
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'status' => 'required',
+                'description' => 'required',
+            ],
+            $messages = [
+                'status.required' => 'Status tidak boleh kosong.!',
+                'description.required' => 'Description tidak boleh kosong.!',
+            ],
+        );
+
+        // kondisi jika validasi gagal dilewati.
+        if ($validator->fails()) {
+            return redirect()->back()->withInput($request->all())->withErrors($validator);
+        }
+
+        // Update status service
+        $serviceId->update([
+            'status_service' => $request->status,
+            'technical_id' => Auth::user()->id
+        ]);
+
+        $data = [
+            'status' => $request->status,
+            'description' => $request->description,
+            'service_id' => $serviceId->id,
+            'technical_id' => Auth::user()->id
+        ];
+
+        ServiceActivity::create($data);
+
+        return redirect(route('service.repair', $serviceId->id))->with('success', 'Service Activity berhasil di tambahkan');
+    }
+
+    public function create_additional_item($id)
+    {
+        $service = Service::find($id);
+        return view('admin.service.create_additional_item', compact('service'));
+    }
+
+    public function store_additional_item(Request $request, $id)
+    {
+        // Get ID Service
+        $serviceId = Service::find($id);
+
+        // Validator
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'item' => 'required',
+                'price' => 'required',
+            ],
+            $messages = [
+                'item.required' => 'Item tidak boleh kosong.!',
+                'price.required' => 'Price tidak boleh kosong.!',
+            ],
+        );
+
+        // kondisi jika validasi gagal dilewati.
+        if ($validator->fails()) {
+            return redirect()->back()->withInput($request->all())->withErrors($validator);
+        }
+
+        $data = [
+            'item' => $request->item,
+            'price' => $request->price,
+            'service_id' => $serviceId->id
+        ];
+
+        AdditionalItems::create($data);
+        return redirect(route('service.repair', $serviceId->id))->with('success', 'Additional item berhasil di tambahkan');
     }
 }

@@ -92,6 +92,12 @@
                         <p>Service</p>
                     </a>
                 </li>
+                <li class="nav-item {{ request()->segment(2) == 'transaction' ? 'active' : '' }}">
+                    <a href="{{ route('transaction.index') }}">
+                        <i class="icon-basket"></i>
+                        <p>Transaction</p>
+                    </a>
+                </li>
                 {{-- /Menu Navigation --}}
             </ul>
         </div>

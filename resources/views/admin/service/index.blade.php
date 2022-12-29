@@ -133,7 +133,7 @@
                                                 class="btn btn-link btn-info" target="_blank">
                                                 <i class="fas fa-print"></i>
                                             </a>
-                                            <a href="{{ route('resi.view', $service->id) }}"
+                                            <a href="{{ route('service.repair', $service->id) }}"
                                                 class="btn btn-link btn-warning">
                                                 <i class="icon-wrench"></i>
                                             </a>

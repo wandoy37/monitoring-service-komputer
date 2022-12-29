@@ -121,14 +121,18 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Teknisi</label>
-                                        <select class="form-control" name="technical_id">
+                                        <input type="text" class="form-control text-capitalize" disabled
+                                            value="{{ $service->technical->name ?? 'Technical Unknown' }}">
+                                        {{-- <select class="form-control" name="technical_id">
                                             <option value="">-- Select Technical --</option>
+
                                             @foreach ($technicals as $key => $technical)
                                                 <option value="{{ $technical->id }}"
                                                     {{ old('technical_id', $service->technical_id) == $technical->id ? 'selected' : null }}>
                                                     {{ $technical->name }}</option>
                                             @endforeach
-                                        </select>
+
+                                        </select> --}}
                                         @error('technical_id')
                                             <span class="text-danger">{{ $message }}</span>
                                         @enderror

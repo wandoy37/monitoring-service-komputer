@@ -20,4 +20,14 @@ class Service extends Model
     {
         return $this->hasMany(ServiceActivity::class);
     }
+
+    public function additionals()
+    {
+        return $this->hasMany(AdditionalItems::class);
+    }
+
+    public function transactions()
+    {
+        return $this->hasOne(Transaction::class);
+    }
 }

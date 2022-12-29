@@ -30,7 +30,7 @@
 
         <div class="row">
             <div class="col-lg-12 mt-4">
-                <a href="{{ route('service.index') }}" class="btn btn-secondary btn-round btn-border btn-lg">
+                <a href="{{ route('service.index') }}" class="btn btn-outline-secondary btn-round">
                     <i class="fas fa-arrow-left"></i>
                     Back
                 </a>
@@ -51,7 +51,7 @@
                                     <div class="form-group">
                                         <label>Store <small>(Toko / Cabang)</small></label>
                                         <select class="form-control" name="store">
-                                            <option>-- Select Store --</option>
+                                            <option value="">-- Select Store --</option>
                                             @foreach ($stores as $key => $value)
                                                 <option value="{{ $key }}"
                                                     {{ old('store') == $key ? 'selected' : null }}>
