@@ -21,13 +21,19 @@ Laravel is a web application framework with expressive, elegant syntax. We belie
 
 Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
-## Learning Laravel
+## How to installation
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- git clone https://github.com/wandoy37/monitoring-service-komputer.git
+- composer install
+- cp .env.example .env
+- configuration database connection
+- php artisan migrate
+- php artisan db:seed
+- php artisan serve
+- open your browser and go to url http://127.0.0.1:8000
+## My Social Media
+- Instagram : @mhmd_wandii
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
-
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
 
 ## Laravel Sponsors
 
