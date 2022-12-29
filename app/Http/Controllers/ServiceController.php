@@ -76,9 +76,14 @@ class ServiceController extends Controller
             return redirect()->back()->withInput($request->all())->withErrors($validator);
         }
 
+        // Last data
+        $lastService = Service::all()->count();
+        $lastService++;
+
+
         // Jika berhasil melewati validator maka tangkap datanya
         $service = Service::create([
-            'code_service' => 'SRV-' . date('Ymd') . '-' . rand(1000, 9999),
+            'code_service' => 'SRV-' . date('Ymd') . '-' . str_pad($lastService, 4, '0', STR_PAD_LEFT),
             'status_service' => 'registration',
             'customer_name' => $request->customer_name,
             'customer_phone' => $request->customer_phone,
