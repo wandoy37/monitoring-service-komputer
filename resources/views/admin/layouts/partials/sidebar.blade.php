@@ -98,6 +98,12 @@
                         <p>Transaction</p>
                     </a>
                 </li>
+                <li class="nav-item {{ request()->segment(2) == 'report' ? 'active' : '' }}">
+                    <a href="{{ route('report.index') }}">
+                        <i class="icon-notebook"></i>
+                        <p>Report</p>
+                    </a>
+                </li>
                 {{-- /Menu Navigation --}}
             </ul>
         </div>

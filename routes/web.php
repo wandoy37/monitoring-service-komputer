@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserController;
@@ -61,5 +62,8 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/transaction/{id}/show', [TransactionController::class, 'show'])->name('transaction.show');
     Route::post('/transaction/{id}/store', [TransactionController::class, 'store'])->name('transaction.store');
     // Page Nota Transaction
-    Route::get('/transaction/{id}/cetak', [TransactionController::class, 'cetakView'])->name('transaction.cetak');
+    Route::get('/transaction/{service}/cetak', [TransactionController::class, 'cetakView'])->name('transaction.cetak');
+
+    // Report
+    Route::get('/report', [ReportController::class, 'index'])->name('report.index');
 });

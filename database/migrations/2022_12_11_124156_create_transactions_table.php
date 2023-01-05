@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('service_id');
             $table->string('category', 100);
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->bigInteger('total_price');
             $table->timestamps();
 
