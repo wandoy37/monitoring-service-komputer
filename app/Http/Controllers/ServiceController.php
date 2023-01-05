@@ -18,25 +18,59 @@ class ServiceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $services = Service::orderBy('id', 'DESC')->get();
-        // Mencari data berdasarkan service_code search
+        $services = Service::where(function ($w) {
+            $w->where('status_service', 'registration')
+                ->orWhere('status_service', 'check')
+                ->orWhere('status_service', 'repair')
+                ->orWhere('status_service', 'done')
+                ->orWhere('status_service', 'cancle');
+        });
+
+        // Filter methods search code_service, customer_name, customer_phone
         if (request('search')) {
-            $services = Service::where('code_service', 'LIKE', '%' . request('search') . '%')->get();
+            $services = $services->where('code_service', 'LIKE', '%' . request('search') . '%')
+                ->orWhere('customer_name', 'LIKE', '%' . request('search') . '%')
+                ->orWhere('customer_phone', 'LIKE', '%' . request('search') . '%');
         }
-        // Jika terdapat nilai code_service
-        $search = request('search') ?? '';
 
-        // Mencari data berdasarkan status_service
+        // Filters methods star date to end date
+        if (request('start_date') && request('end_date')) {
+            $start = request('start_date');
+            $end = request('end_date');
+
+            $services = $services->whereDate('created_at', '<=', $end)
+                ->whereDate('created_at', '>=', $start);
+        }
+
+        // Filter methods select store atau cabang
+        if (request('store')) {
+            $services = $services->where('store', 'LIKE', '%' . request('store') . '%');
+        }
+
+        // Filter methods select status atau status
         if (request('status')) {
-            $services = Service::where('status_service', 'LIKE', '%' . request('status') . '%')->get();
+            $services = $services->where('status_service', 'LIKE', '%' . request('status') . '%');
         }
-        // Jika terdapat nilai status_service
-        $status = request('status') ?? '';
 
+        // Data Stores
+        $stores = $this->stores();
+        // Data Statuses
         $statuses = $this->statuses();
-        return view('admin.service.index', compact('services', 'statuses', 'search', 'status'));
+
+        // Get service berdasarkan kondisi yang ada
+        $services = $services->orderBy('created_at', 'DESC')->paginate(10);
+
+        // get request filter value
+        $filters = [
+            'search' => $request->search ?? '',
+            'start_date' => $request->start_date ?? '',
+            'end_date' => $request->end_date ?? '',
+            'store' => $request->store ?? '',
+            'status' => $request->status ?? '',
+        ];
+        return view('admin.service.index', compact('services', 'statuses', 'stores', 'filters'));
     }
 
     /**
@@ -199,8 +233,8 @@ class ServiceController extends Controller
     private function stores()
     {
         return [
-            'Ghufta - Perjuangan' => 'Ghufta - Perjuangan',
-            'Ghufta - Pelita' => 'Ghufta - Pelita',
+            'Ghuftha - Perjuangan' => 'Ghuftha - Perjuangan',
+            'Ghuftha - Pelita' => 'Ghuftha - Pelita',
         ];
     }
 

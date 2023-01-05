@@ -32,42 +32,89 @@
                     Service
                 </a>
             </div>
+        </div>
+
+        <div class="row">
             <div class="col-lg-12 mt-4">
-                <div class="row">
-                    <div class="col-md-4">
-                        <form action="{{ url('/admin/service') }}">
+                <form action="/admin/service">
+                    <div class="row">
+                        <div class="col-sm-2">
                             <div class="form-group">
                                 <div class="input-icon">
-                                    <input type="text" name="search" class="form-control" placeholder="Code Service..."
-                                        value="{{ $search }}">
+                                    <input type="text" name="search" class="form-control" placeholder="Serach ..."
+                                        value="{{ $filters['search'] }}">
                                     <span class="input-icon-addon">
                                         <i class="fa fa-search"></i>
                                     </span>
                                 </div>
                             </div>
-                        </form>
-                    </div>
-                    <div class="col-md-8">
-                        <form action="{{ url('/admin/service') }}">
-                            <div class="form-group form-show-validation row">
-                                <label class="col-lg-2 col-md-2 col-sm-3 mt-sm-2 text-right">Status</label>
-                                <div class="col-lg-4 col-md-9 col-sm-8">
-                                    <select class="form-control" name="status">
-                                        <option value="">-- Select Status --</option>
-                                        @foreach ($statuses as $key => $value)
-                                            <option value="{{ $key }}" class="text-capitalize"
-                                                {{ old('role', $status) == $key ? 'selected' : null }}>
-                                                {{ $value }}</option>
-                                        @endforeach
-                                    </select>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group form-inline">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="start_date" name="start_date"
+                                        placeholder="Start Date ..." value="{{ $filters['start_date'] }}">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">
+                                            <i class="fa fa-calendar"></i>
+                                        </span>
+                                    </div>
                                 </div>
-                                <button type="submit" class="btn btn-secondary btn-sm">
-                                    <i class="fa fa-search"></i>
-                                </button>
+                                <strong class="mx-2">To</strong>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="end_date" name="end_date"
+                                        placeholder="End Date ..." value="{{ $filters['end_date'] }}">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">
+                                            <i class="fa fa-calendar"></i>
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
-                        </form>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <select class="form-control" name="store">
+                                    <option value="">-- Select Store --</option>
+                                    @foreach ($stores as $key => $value)
+                                        <option value="{{ $key }}"
+                                            {{ $filters['store'] == $key ? 'selected' : null }}>
+                                            {{ $value }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error('store')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <select class="form-control" name="status">
+                                    <option value="">-- Select Status --</option>
+                                    @foreach ($statuses as $key => $value)
+                                        <option value="{{ $key }}"
+                                            {{ $filters['status'] == $key ? 'selected' : null }}>
+                                            {{ $value }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error('store')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-gorup" style="margin-top:10px;">
+                                <button type="submit" class="btn btn-secondary">
+                                    <i class="fa fa-search"></i>
+                                    Filter
+                                </button>
+                                <a href="{{ route('service.index') }}" class="btn btn-success">Clear</a>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
 
@@ -79,6 +126,7 @@
                             <tr class="text-center">
                                 <th scope="col">#</th>
                                 <th scope="col">Kode Servis</th>
+                                <th scope="col">Store / Cabang</th>
                                 <th scope="col">Nama Pelanggan</th>
                                 <th scope="col">Nomor Hp</th>
                                 <th scope="col">Perangkat</th>
@@ -93,6 +141,7 @@
                                 <tr class="text-center">
                                     <td>{{ $no }}</td>
                                     <td>{{ $service->code_service }}</td>
+                                    <td>{{ $service->store }}</td>
                                     <td>{{ $service->customer_name }}</td>
                                     <td>{{ $service->customer_phone }}</td>
                                     <td>{{ $service->device }}</td>
@@ -111,11 +160,15 @@
                                         @endif
                                         @if ($service->status_service == 'done')
                                             <span
+                                                class="text-capitalize badge badge-primary">{{ $service->status_service }}</span>
+                                        @endif
+                                        @if ($service->status_service == 'paid')
+                                            <span
                                                 class="text-capitalize badge badge-success">{{ $service->status_service }}</span>
                                         @endif
                                         @if ($service->status_service == 'cancle')
                                             <span
-                                                class="text-capitalize badge badge-danger">{{ $service->status_service }}</span>
+                                                class="text-capitalize badge badge-count">{{ $service->status_service }}</span>
                                         @endif
                                     </td>
                                     <td>
@@ -147,6 +200,11 @@
                             @endforeach
                         </tbody>
                     </table>
+                </div>
+            </div>
+            <div class="col-lg-12 d-flex justify-content-center">
+                <div class="my-2">
+                    {!! $services->appends(request()->all())->links('pagination::bootstrap-4') !!}
                 </div>
             </div>
         </div>
@@ -197,5 +255,14 @@
                 }
             });
         }
+    </script>
+    <script>
+        $('#start_date').datetimepicker({
+            format: 'YYYY-MM-DD',
+        });
+
+        $('#end_date').datetimepicker({
+            format: 'YYYY-MM-DD',
+        });
     </script>
 @endpush
