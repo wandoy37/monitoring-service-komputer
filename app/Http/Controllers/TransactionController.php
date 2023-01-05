@@ -15,12 +15,48 @@ class TransactionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $services = Service::where('status_service', 'done')->get()->all();
-        // return response()->json($services);
-        $search = [];
-        return view('admin.transaction.index', compact('services', 'search'));
+        $services = Service::where(function ($w) {
+            $w->where('status_service', 'done')
+                ->orWhere('status_service', 'paid');
+        });
+
+        // Filter methods search code_service, customer_name, customer_phone
+        if (request('search')) {
+            $services = $services->where('code_service', 'LIKE', '%' . request('search') . '%')
+                ->orWhere('customer_name', 'LIKE', '%' . request('search') . '%')
+                ->orWhere('customer_phone', 'LIKE', '%' . request('search') . '%');
+        }
+
+        // Filter methods select store atau cabang
+        if (request('store')) {
+            $services = $services->where('store', 'LIKE', '%' . request('store') . '%');
+        }
+
+        // Filter methods select status atau status
+        if (request('status')) {
+            $services = $services->where('status_service', 'LIKE', '%' . request('status') . '%');
+        }
+
+        // Data Stores
+        $stores = $this->stores();
+
+        // Data Statuses
+        $statuses = $this->statuses();
+
+        // Get service berdasarkan kondisi yang ada
+        $services = $services->orderBy('created_at', 'DESC')->paginate(10);
+
+        // get request filter value
+        $filters = [
+            'search' => $request->search ?? '',
+            'start_date' => $request->start_date ?? '',
+            'end_date' => $request->end_date ?? '',
+            'store' => $request->store ?? '',
+            'status' => $request->status ?? '',
+        ];
+        return view('admin.transaction.index', compact('services', 'stores', 'statuses', 'filters'));
     }
 
     /**
@@ -49,6 +85,7 @@ class TransactionController extends Controller
             $request->all(),
             [
                 'category' => 'required',
+                'description' => 'required',
                 'total_price' => 'required',
             ],
             [],
@@ -69,7 +106,7 @@ class TransactionController extends Controller
 
         // Update status transaction to Service
         $service->update([
-            'status_transaction' => 'paid'
+            'status_service' => 'paid'
         ]);
 
         return redirect('/admin/transaction')->with('success', $service->code_service . ' Success Transaction');
@@ -134,8 +171,24 @@ class TransactionController extends Controller
         ];
     }
 
-    public function cetakView()
+    public function cetakView(Service $service)
     {
-        //
+        return view('admin.transaction.page.cetak', compact('service'));
+    }
+
+    private function stores()
+    {
+        return [
+            'Ghuftha - Perjuangan' => 'Ghuftha - Perjuangan',
+            'Ghuftha - Pelita' => 'Ghuftha - Pelita',
+        ];
+    }
+
+    private function statuses()
+    {
+        return [
+            'done' => 'done',
+            'paid' => 'paid',
+        ];
     }
 }
