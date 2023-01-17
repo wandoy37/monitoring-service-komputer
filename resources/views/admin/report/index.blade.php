@@ -122,11 +122,9 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php $no = 0; ?>
                             @foreach ($reports as $report)
-                                <?php $no++; ?>
                                 <tr class="text-center">
-                                    <td>{{ $no }}</td>
+                                    <td>{{ $reports->count() * ($reports->currentPage() - 1) + $loop->iteration }}</td>
                                     <td>{{ $report->code_service }}</td>
                                     <td>{{ $report->customer_name }}</td>
                                     <td>{{ $report->created_at->format('Y-m-d') }}</td>

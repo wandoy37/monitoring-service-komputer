@@ -135,11 +135,9 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php $no = 0; ?>
                             @foreach ($services as $service)
-                                <?php $no++; ?>
                                 <tr class="text-center">
-                                    <td>{{ $no }}</td>
+                                    <td>{{ $services->count() * ($services->currentPage() - 1) + $loop->iteration }}</td>
                                     <td>{{ $service->code_service }}</td>
                                     <td>{{ $service->store }}</td>
                                     <td>{{ $service->customer_name }}</td>
