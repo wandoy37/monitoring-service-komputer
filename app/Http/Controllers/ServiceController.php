@@ -25,7 +25,9 @@ class ServiceController extends Controller
                 ->orWhere('status_service', 'check')
                 ->orWhere('status_service', 'repair')
                 ->orWhere('status_service', 'done')
-                ->orWhere('status_service', 'cancle');
+                ->orWhere('status_service', 'cancle')
+                ->orWhere('status_service', 'pending')
+                ->orWhere('status_service', 'sedang di service center');
         });
 
         // Filter methods search code_service, customer_name, customer_phone
@@ -227,6 +229,8 @@ class ServiceController extends Controller
             'repair' => 'repair',
             'done' => 'done',
             'cancle' => 'cancle',
+            'pending' => 'pending',
+            'sedang di service center' => 'sedang di service center'
         ];
     }
 

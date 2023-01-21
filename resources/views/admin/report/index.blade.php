@@ -141,6 +141,13 @@
                                         @if ($report->status_service == 'cancle')
                                             <span class="text-capitalize badge badge-danger">cancle</span>
                                         @endif
+                                        @if ($report->status_service == 'pending')
+                                            <span class="text-capitalize badge badge-count">pending</span>
+                                        @endif
+                                        @if ($report->status_service == 'sedang di service center')
+                                            <span class="text-capitalize badge badge-warning">sedang di service
+                                                center</span>
+                                        @endif
                                     </td>
                                     <td>{{ $report->technical->name ?? 'Technical Unknow' }}</td>
                                     <td>

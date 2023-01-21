@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('service_activities', function (Blueprint $table) {
             $table->id();
-            $table->enum('status', ['registration', 'check', 'repair', 'done', 'cancle'])->nullable();
+            $table->enum('status', ['registration', 'check', 'repair', 'done', 'cancle', 'pending', 'sedang di service center'])->nullable();
             $table->string('description')->nullable();
             $table->timestamps();
 

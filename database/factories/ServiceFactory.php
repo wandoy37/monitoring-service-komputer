@@ -22,7 +22,7 @@ class ServiceFactory extends Factory
         $lastService++;
         return [
             'code_service' => 'SRV-' . date('Ymd') . '-' . random_int(1000, 9999),
-            'status_service' => $this->faker->randomElement(['registration', 'check', 'repair', 'cancle']),
+            'status_service' => $this->faker->randomElement(['registration', 'check', 'repair', 'cancle', 'pending', 'sedang di service center']),
             'customer_name' => $this->faker->name(),
             'customer_phone' => random_int(1000, 9999),
             'device' => 'Laptop unknow',

@@ -168,6 +168,14 @@
                                             <span
                                                 class="text-capitalize badge badge-count">{{ $service->status_service }}</span>
                                         @endif
+                                        @if ($service->status_service == 'pending')
+                                            <span
+                                                class="text-capitalize badge badge-count">{{ $service->status_service }}</span>
+                                        @endif
+                                        @if ($service->status_service == 'sedang di service center')
+                                            <span
+                                                class="text-capitalize badge badge-warning">{{ $service->status_service }}</span>
+                                        @endif
                                     </td>
                                     <td>
                                         <div class="form-inline">

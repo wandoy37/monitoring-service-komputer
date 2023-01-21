@@ -24,7 +24,9 @@ class ReportController extends Controller
             $w->where('status_service', 'registration')
                 ->orWhere('status_service', 'done')
                 ->orWhere('status_service', 'paid')
-                ->orWhere('status_service', 'cancle');
+                ->orWhere('status_service', 'cancle')
+                ->orWhere('status_service', 'pending')
+                ->orWhere('status_service', 'sedang di service center');
         });
 
         // Filters methods star date to end date
@@ -154,6 +156,8 @@ class ReportController extends Controller
             'done' => 'done',
             'paid' => 'paid',
             'cancle' => 'cancle',
+            'pending' => 'pending',
+            'sedang di service center' => 'sedang di service center'
         ];
     }
 }
