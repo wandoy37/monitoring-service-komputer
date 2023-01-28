@@ -17,13 +17,7 @@
                     <i class="flaticon-right-arrow"></i>
                 </li>
                 <li class="nav-item">
-                    <a href="#">Pages</a>
-                </li>
-                <li class="separator">
-                    <i class="flaticon-right-arrow"></i>
-                </li>
-                <li class="nav-item">
-                    <a href="#">Starter Page</a>
+                    <a href="{{ route('dashboard.index') }}">Dashboard</a>
                 </li>
             </ul>
         </div>

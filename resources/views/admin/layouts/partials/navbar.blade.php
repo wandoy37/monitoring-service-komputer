@@ -2,7 +2,7 @@
 
     <div class="container-fluid">
         <ul class="navbar-nav topbar-nav ml-md-auto align-items-center">
-            <li class="nav-item dropdown hidden-caret">
+            {{-- <li class="nav-item dropdown hidden-caret">
                 <a class="nav-link dropdown-toggle" href="#" id="notifDropdown" role="button" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">
                     <i class="fa fa-bell"></i>
@@ -63,7 +63,7 @@
                                 class="fa fa-angle-right"></i> </a>
                     </li>
                 </ul>
-            </li>
+            </li> --}}
             <li class="nav-item dropdown hidden-caret">
                 <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#" aria-expanded="false">
                     <div class="avatar-sm">

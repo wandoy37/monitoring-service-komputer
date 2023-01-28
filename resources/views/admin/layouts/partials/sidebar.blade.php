@@ -41,50 +41,13 @@
                     <span class="sidebar-mini-icon">
                         <i class="fa fa-ellipsis-h"></i>
                     </span>
-                    <h4 class="text-section">MENU NAVIGATION</h4>
+                    <h4 class="text-section">NAVIGATION</h4>
                 </li>
                 <li class="nav-item {{ request()->segment(2) == 'dashboard' ? 'active' : '' }}">
                     <a href="{{ route('dashboard.index') }}">
-                        <i class="far fa-question-circle"></i>
+                        <i class="fas fa-tachometer-alt"></i>
                         <p>Dashboard</p>
                     </a>
-                </li>
-                <li class="nav-item">
-                    <a data-toggle="collapse" href="#submenu">
-                        <i class="fas fa-bars"></i>
-                        <p>Menu Levels</p>
-                        <span class="caret"></span>
-                    </a>
-                    <div class="collapse" id="submenu">
-                        <ul class="nav nav-collapse">
-                            <li>
-                                <a href="#">
-                                    <span class="sub-item">Level 1</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-                {{-- /Menu Master --}}
-                <li class="nav-section">
-                    <span class="sidebar-mini-icon">
-                        <i class="fa fa-ellipsis-h"></i>
-                    </span>
-                    <h4 class="text-section">MENU MASTER</h4>
-                </li>
-                <li class="nav-item {{ request()->segment(2) == 'user' ? 'active' : '' }}">
-                    <a href="{{ route('user.index') }}">
-                        <i class="far fa-user"></i>
-                        <p>User</p>
-                    </a>
-                </li>
-                {{-- /Menu Master --}}
-                {{-- /Menu Navigation --}}
-                <li class="nav-section">
-                    <span class="sidebar-mini-icon">
-                        <i class="fa fa-ellipsis-h"></i>
-                    </span>
-                    <h4 class="text-section">MENU NAVIGATION</h4>
                 </li>
                 <li class="nav-item {{ request()->segment(2) == 'service' ? 'active' : '' }}">
                     <a href="{{ route('service.index') }}">
@@ -98,13 +61,27 @@
                         <p>Transaction</p>
                     </a>
                 </li>
+
+                {{-- /Menu Master --}}
+                <li class="nav-section">
+                    <span class="sidebar-mini-icon">
+                        <i class="fa fa-ellipsis-h"></i>
+                    </span>
+                    <h4 class="text-section">MODUL MASTER</h4>
+                </li>
+                <li class="nav-item {{ request()->segment(2) == 'user' ? 'active' : '' }}">
+                    <a href="{{ route('user.index') }}">
+                        <i class="far fa-user"></i>
+                        <p>User</p>
+                    </a>
+                </li>
                 <li class="nav-item {{ request()->segment(2) == 'report' ? 'active' : '' }}">
                     <a href="{{ route('report.index') }}">
                         <i class="icon-notebook"></i>
                         <p>Report</p>
                     </a>
                 </li>
-                {{-- /Menu Navigation --}}
+                {{-- /Menu Master --}}
             </ul>
         </div>
     </div>

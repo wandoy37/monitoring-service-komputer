@@ -1,12 +1,15 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserController;
 use App\Models\Service;
 use Illuminate\Support\Facades\Route;
+
+use function PHPUnit\Framework\returnSelf;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,6 +25,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return redirect('/login');
 });
+
+Route::get('/lacak-perbaikan', [HomeController::class, 'lacak_perbaikan'])->name('lacak.perbaikan');
+Route::post('find-service-process', [HomeController::class, 'find_service'])->name('find.service.process');
+Route::get('/lacak-perbaikan/{code_service}', [HomeController::class, 'show_perbaikan'])->name('show.perbaikan');
 
 // Route Grouping used prefix admin for authntication
 Route::prefix('admin')->middleware('auth')->group(function () {
