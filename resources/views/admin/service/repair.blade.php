@@ -50,11 +50,25 @@
                         <table class="table table-striped">
                             <tbody>
                                 <tr>
+                                    <td width="20%" class="font-weight-bold">Customer Name <small>(Nama Pemilik)</small>
+                                    </td>
+                                    <td>: {{ $service->customer_name }}</td>
+                                </tr>
+                                <tr>
+                                    <td width="20%" class="font-weight-bold">Customer Phone <small>(Telepon
+                                            Pemilik)</small>
+                                    </td>
+                                    <td>: {{ $service->customer_phone }}</td>
+                                </tr>
+                                <tr>
                                     <td width="20%" class="font-weight-bold">Device <small>(Perangkat)</small></td>
                                     <td>: {{ $service->device }}</td>
                                 </tr>
                                 <tr>
-                                    <td width="20%" class="font-weight-bold">Keluhan</td>
+                                    <td width="20%" class="font-weight-bold">
+                                        Problem
+                                        <small>(Masalah / Keluhan)</small>
+                                    </td>
                                     <td>: {{ $service->keluhan }}</td>
                                 </tr>
                                 <tr>

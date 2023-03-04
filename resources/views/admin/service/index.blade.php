@@ -179,15 +179,19 @@
                                     </td>
                                     <td>
                                         <div class="form-inline">
-                                            <form id="form-delete-{{ $service->id }}"
-                                                action="{{ url("/admin/service/$service->id/delete") }}" method="post">
-                                                @csrf
-                                                @method('DELETE')
-                                            </form>
-                                            <a href="{{ url('admin/service/' . $service->id . '/edit') }}"
-                                                class="btn btn-primary btn-link">
-                                                <i class="fas fa-pen"></i>
-                                            </a>
+                                            @if (Auth::user()->role == 'admin')
+                                                <form id="form-delete-{{ $service->id }}"
+                                                    action="{{ url("/admin/service/$service->id/delete") }}"
+                                                    method="post">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                </form>
+                                                <a href="{{ url('admin/service/' . $service->id . '/edit') }}"
+                                                    class="btn btn-primary btn-link">
+                                                    <i class="fas fa-pen"></i>
+                                                </a>
+                                            @endif
+
                                             <a type="button" href="{{ route('resi.view', $service->id) }}"
                                                 class="btn btn-link btn-info" target="_blank">
                                                 <i class="fas fa-print"></i>
@@ -196,10 +200,12 @@
                                                 class="btn btn-link btn-warning">
                                                 <i class="icon-wrench"></i>
                                             </a>
-                                            <button type="button" class="btn btn-danger btn-link"
-                                                onclick="btnDelete( {{ $service->id }} )">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
+                                            @if (Auth::user()->role == 'admin')
+                                                <button type="button" class="btn btn-danger btn-link"
+                                                    onclick="btnDelete( {{ $service->id }} )">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            @endif
                                         </div>
                                     </td>
                                 </tr>

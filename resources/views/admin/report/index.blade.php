@@ -115,7 +115,7 @@
                                 <th scope="col">#</th>
                                 <th scope="col">Kode Servis</th>
                                 <th scope="col">Nama Pelanggan</th>
-                                <th scope="col">Created At</th>
+                                <th scope="col">Tanggal</th>
                                 <th scope="col">Status</th>
                                 <th scope="col">Teknisi</th>
                                 <th scope="col">Uang Masuk</th>
@@ -127,7 +127,7 @@
                                     <td>{{ $reports->count() * ($reports->currentPage() - 1) + $loop->iteration }}</td>
                                     <td>{{ $report->code_service }}</td>
                                     <td>{{ $report->customer_name }}</td>
-                                    <td>{{ $report->created_at->format('Y-m-d') }}</td>
+                                    <td>{{ $report->updated_at->format('Y-m-d') }}</td>
                                     <td>
                                         @if ($report->status_service == 'registration')
                                             <span class="text-capitalize badge badge-count">registration</span>

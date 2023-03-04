@@ -55,32 +55,36 @@
                         <p>Service</p>
                     </a>
                 </li>
-                <li class="nav-item {{ request()->segment(2) == 'transaction' ? 'active' : '' }}">
-                    <a href="{{ route('transaction.index') }}">
-                        <i class="icon-basket"></i>
-                        <p>Transaction</p>
-                    </a>
-                </li>
+                @if (Auth::user()->role == 'admin')
+                    <li class="nav-item {{ request()->segment(2) == 'transaction' ? 'active' : '' }}">
+                        <a href="{{ route('transaction.index') }}">
+                            <i class="icon-basket"></i>
+                            <p>Transaction</p>
+                        </a>
+                    </li>
+                @endif
 
                 {{-- /Menu Master --}}
-                <li class="nav-section">
-                    <span class="sidebar-mini-icon">
-                        <i class="fa fa-ellipsis-h"></i>
-                    </span>
-                    <h4 class="text-section">MODUL MASTER</h4>
-                </li>
-                <li class="nav-item {{ request()->segment(2) == 'user' ? 'active' : '' }}">
-                    <a href="{{ route('user.index') }}">
-                        <i class="far fa-user"></i>
-                        <p>User</p>
-                    </a>
-                </li>
-                <li class="nav-item {{ request()->segment(2) == 'report' ? 'active' : '' }}">
-                    <a href="{{ route('report.index') }}">
-                        <i class="icon-notebook"></i>
-                        <p>Report</p>
-                    </a>
-                </li>
+                @if (Auth::user()->role == 'admin')
+                    <li class="nav-section">
+                        <span class="sidebar-mini-icon">
+                            <i class="fa fa-ellipsis-h"></i>
+                        </span>
+                        <h4 class="text-section">MODUL MASTER</h4>
+                    </li>
+                    <li class="nav-item {{ request()->segment(2) == 'user' ? 'active' : '' }}">
+                        <a href="{{ route('user.index') }}">
+                            <i class="far fa-user"></i>
+                            <p>User</p>
+                        </a>
+                    </li>
+                    <li class="nav-item {{ request()->segment(2) == 'report' ? 'active' : '' }}">
+                        <a href="{{ route('report.index') }}">
+                            <i class="icon-notebook"></i>
+                            <p>Report</p>
+                        </a>
+                    </li>
+                @endif
                 {{-- /Menu Master --}}
             </ul>
         </div>

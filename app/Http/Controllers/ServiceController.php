@@ -20,59 +20,99 @@ class ServiceController extends Controller
      */
     public function index(Request $request)
     {
-        $services = Service::where(function ($w) {
-            $w->where('status_service', 'registration')
-                ->orWhere('status_service', 'check')
-                ->orWhere('status_service', 'repair')
-                ->orWhere('status_service', 'done')
-                ->orWhere('status_service', 'cancle')
-                ->orWhere('status_service', 'pending')
-                ->orWhere('status_service', 'sedang di service center');
-        });
+        if (Auth::user()->role == 'admin') {
+            $services = Service::where(function ($w) {
+                $w->where('status_service', 'registration')
+                    ->orWhere('status_service', 'check')
+                    ->orWhere('status_service', 'repair')
+                    ->orWhere('status_service', 'done')
+                    ->orWhere('status_service', 'cancle')
+                    ->orWhere('status_service', 'pending')
+                    ->orWhere('status_service', 'sedang di service center');
+            });
 
-        // Filter methods search code_service, customer_name, customer_phone
-        if (request('search')) {
-            $services = $services->where('code_service', 'LIKE', '%' . request('search') . '%')
-                ->orWhere('customer_name', 'LIKE', '%' . request('search') . '%')
-                ->orWhere('customer_phone', 'LIKE', '%' . request('search') . '%');
+            // Filter methods search code_service, customer_name, customer_phone
+            if (request('search')) {
+                $services = $services->where('code_service', 'LIKE', '%' . request('search') . '%')
+                    ->orWhere('customer_name', 'LIKE', '%' . request('search') . '%')
+                    ->orWhere('customer_phone', 'LIKE', '%' . request('search') . '%');
+            }
+
+            // Filters methods star date to end date
+            if (request('start_date') && request('end_date')) {
+                $start = request('start_date');
+                $end = request('end_date');
+
+                $services = $services->whereDate('created_at', '<=', $end)
+                    ->whereDate('created_at', '>=', $start);
+            }
+
+            // Filter methods select store atau cabang
+            if (request('store')) {
+                $services = $services->where('store', 'LIKE', '%' . request('store') . '%');
+            }
+
+            // Filter methods select status atau status
+            if (request('status')) {
+                $services = $services->where('status_service', 'LIKE', '%' . request('status') . '%');
+            }
+
+            // Data Stores
+            $stores = $this->stores();
+            // Data Statuses
+            $statuses = $this->statuses();
+
+            // get request filter value
+            $filters = [
+                'search' => $request->search ?? '',
+                'start_date' => $request->start_date ?? '',
+                'end_date' => $request->end_date ?? '',
+                'store' => $request->store ?? '',
+                'status' => $request->status ?? '',
+            ];
+            // Get service berdasarkan kondisi yang ada
+            $services = $services->orderBy('created_at', 'DESC')->paginate(10);
+            return view('admin.service.index', compact('services', 'statuses', 'stores', 'filters'));
         }
 
-        // Filters methods star date to end date
-        if (request('start_date') && request('end_date')) {
-            $start = request('start_date');
-            $end = request('end_date');
+        if (Auth::user()->role == 'teknisi') {
+            // Get service by this auth technicials
+            // $services = $services->where(function ($technicals) {
+            //     $technicals->where('technical_id', Auth::user()->id)
+            //         ->orWhere('technical_id', null);
+            // });
 
-            $services = $services->whereDate('created_at', '<=', $end)
-                ->whereDate('created_at', '>=', $start);
+            // Get service berdasarkan kondisi yang ada
+            // $services = $services->where('store', Auth::user()->store)->orderBy('created_at', 'DESC')->paginate(10);
+
+            $services = Service::where(function ($w) {
+                $w->where('status_service', 'registration')
+                    ->orWhere('status_service', 'check')
+                    ->orWhere('status_service', 'repair')
+                    ->orWhere('status_service', 'pending')
+                    ->orWhere('status_service', 'cancle')
+                    ->orWhere('status_service', 'sedang di service center');
+            });
+
+            // Data Stores
+            $stores = $this->stores();
+            // Data Statuses
+            $statuses = $this->statuses();
+
+            // get request filter value
+            $filters = [
+                'search' => $request->search ?? '',
+                'start_date' => $request->start_date ?? '',
+                'end_date' => $request->end_date ?? '',
+                'store' => $request->store ?? '',
+                'status' => $request->status ?? '',
+            ];
+
+            // return response()->json($services->get());
+            // Get service berdasarkan kondisi yang ada
+            $services = $services->where('store', Auth::user()->store)->orderBy('created_at', 'DESC')->paginate(10);
+            return view('admin.service.index', compact('services', 'statuses', 'stores', 'filters'));
         }
-
-        // Filter methods select store atau cabang
-        if (request('store')) {
-            $services = $services->where('store', 'LIKE', '%' . request('store') . '%');
-        }
-
-        // Filter methods select status atau status
-        if (request('status')) {
-            $services = $services->where('status_service', 'LIKE', '%' . request('status') . '%');
-        }
-
-        // Data Stores
-        $stores = $this->stores();
-        // Data Statuses
-        $statuses = $this->statuses();
-
-        // Get service berdasarkan kondisi yang ada
-        $services = $services->orderBy('created_at', 'DESC')->paginate(10);
-
-        // get request filter value
-        $filters = [
-            'search' => $request->search ?? '',
-            'start_date' => $request->start_date ?? '',
-            'end_date' => $request->end_date ?? '',
-            'store' => $request->store ?? '',
-            'status' => $request->status ?? '',
-        ];
-        return view('admin.service.index', compact('services', 'statuses', 'stores', 'filters'));
     }
 
     /**
